@@ -29,10 +29,12 @@ export function SearchAndReplaceToolbar() {
   const [replaceText, setReplaceText] = useState('');
   const [checked, setChecked] = useState(false);
 
-  const results = editor?.storage?.searchAndReplace
-    .results as SearchAndReplaceStorage['results'];
-  const selectedResult = editor?.storage?.searchAndReplace
-    .selectedResult as SearchAndReplaceStorage['selectedResult'];
+  const results = (
+    editor?.storage as unknown as Record<string, SearchAndReplaceStorage>
+  )?.searchAndReplace?.results;
+  const selectedResult =
+    (editor?.storage as unknown as Record<string, SearchAndReplaceStorage>)
+      ?.searchAndReplace?.selectedResult ?? 0;
 
   const replace = () => editor?.chain().replace().run();
   const replaceAll = () => editor?.chain().replaceAll().run();
@@ -96,8 +98,10 @@ export function SearchAndReplaceToolbar() {
             />
             <div className="flex items-center justify-between">
               <span className="text-sm">
-                {results?.length === 0 ? selectedResult : selectedResult + 1}/
-                {results?.length}
+                {results?.length === 0
+                  ? (selectedResult ?? 0)
+                  : (selectedResult ?? 0) + 1}
+                /{results?.length}
               </span>
               <div className="flex items-center gap-1">
                 <Button
@@ -173,8 +177,10 @@ export function SearchAndReplaceToolbar() {
                   placeholder="Search..."
                 />
                 <span className="text-xs">
-                  {results?.length === 0 ? selectedResult : selectedResult + 1}/
-                  {results?.length}
+                  {results?.length === 0
+                    ? (selectedResult ?? 0)
+                    : (selectedResult ?? 0) + 1}
+                  /{results?.length}
                 </span>
               </div>
               <div className="mb-2">

@@ -20,7 +20,7 @@ export const safeFetch = async <T extends ZodSchema<unknown>>(
   const res = await response.json();
 
   if (!response.ok) {
-    return [res.message, null];
+    return [res.message, null as unknown as z.TypeOf<T>];
   }
 
   const validateFields = schema.safeParse(res);
@@ -28,7 +28,10 @@ export const safeFetch = async <T extends ZodSchema<unknown>>(
   if (!validateFields.success) {
     console.log(res);
     console.log('Validation errors:', validateFields.error);
-    return [`Validation error: ${validateFields.error.message}`, null];
+    return [
+      `Validation error: ${validateFields.error.message}`,
+      null as unknown as z.TypeOf<T>,
+    ];
   }
 
   return [null, validateFields.data];

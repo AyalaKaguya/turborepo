@@ -2,7 +2,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@repo/shadcn/avatar';
 import { Button } from '@repo/shadcn/button';
 import {
-  FileWithPath,
   FileWithPreview,
   ImageCropper,
   useDropzone,
@@ -20,7 +19,7 @@ const ProfileAvatarEditor = () => {
   );
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<null | string>(null);
-  const onDrop = useCallback((acceptedFiles: FileWithPath[]) => {
+  const onDrop = useCallback(<T extends File>(acceptedFiles: T[]) => {
     const file = acceptedFiles[0];
     if (!file) {
       alert('Selected image is too large!');
@@ -31,7 +30,7 @@ const ProfileAvatarEditor = () => {
       preview: URL.createObjectURL(file),
     });
 
-    setSelectedFile(fileWithPreview);
+    setSelectedFile(fileWithPreview as unknown as FileWithPreview);
     setDialogOpen(true);
   }, []);
   const { getRootProps, getInputProps } = useDropzone({

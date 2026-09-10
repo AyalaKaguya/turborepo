@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@repo/ts-config": "workspace:*",
-    "dayjs": "^1.11.13"
+    "dayjs": "^1.11.23"
   },
   "publishConfig": {
     "access": "public"

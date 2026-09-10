@@ -80,7 +80,7 @@ export const signInWithCredentials = safeAction
         throw new Error('Something went wrong.');
       }
       if (isRedirectError(error)) {
-        revalidateTag('/auth/sign-in');
+        revalidateTag('/auth/sign-in', 'max');
         redirect('/');
       }
     }
@@ -132,7 +132,7 @@ const signOutBySessionToken = async (token: string) => {
 
   if (error) throw error;
 
-  revalidateTag('nest-auth-sessions');
+  revalidateTag('nest-auth-sessions', 'max');
 };
 
 /**
@@ -180,7 +180,7 @@ export const signOutAllDevice = safeAction.action(async () => {
   );
 
   if (!error) {
-    revalidateTag('nest-auth-sessions');
+    revalidateTag('nest-auth-sessions', 'max');
     await signOut({ redirect: true, redirectTo: '/' });
   }
 });

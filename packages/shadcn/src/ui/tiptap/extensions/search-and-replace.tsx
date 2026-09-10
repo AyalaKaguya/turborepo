@@ -189,22 +189,22 @@ const replaceAll = (
 };
 
 const selectNext = (editor: CoreEditor) => {
-  const { results } = editor.storage
-    .searchAndReplace as SearchAndReplaceStorage;
+  const storage = editor.storage as unknown as SearchAndReplaceStorage;
+  const { results } = storage;
 
   if (!results.length) {
     return;
   }
 
-  const { selectedResult } = editor.storage.searchAndReplace;
+  const { selectedResult } = storage;
 
   if (selectedResult >= results.length - 1) {
-    editor.storage.searchAndReplace.selectedResult = 0;
+    storage.selectedResult = 0;
   } else {
-    editor.storage.searchAndReplace.selectedResult += 1;
+    storage.selectedResult += 1;
   }
 
-  const result = results[editor.storage.searchAndReplace.selectedResult];
+  const result = results[storage.selectedResult];
   if (!result) return;
 
   const { from } = result;
@@ -221,21 +221,24 @@ const selectNext = (editor: CoreEditor) => {
 };
 
 const selectPrevious = (editor: CoreEditor) => {
-  const { results } = editor.storage.searchAndReplace;
+  const storage = editor.storage as unknown as SearchAndReplaceStorage;
+  const { results } = storage;
 
   if (!results.length) {
     return;
   }
 
-  const { selectedResult } = editor.storage.searchAndReplace;
+  const { selectedResult } = storage;
 
   if (selectedResult <= 0) {
-    editor.storage.searchAndReplace.selectedResult = results.length - 1;
+    storage.selectedResult = results.length - 1;
   } else {
-    editor.storage.searchAndReplace.selectedResult -= 1;
+    storage.selectedResult -= 1;
   }
 
-  const { from } = results[editor.storage.searchAndReplace.selectedResult];
+  const result = results[storage.selectedResult];
+  if (!result) return;
+  const { from } = result;
 
   const view: EditorView | undefined = editor.view;
 
@@ -301,21 +304,24 @@ export const SearchAndReplace = Extension.create<
       setSearchTerm:
         (searchTerm: string) =>
         ({ editor }) => {
-          editor.storage.searchAndReplace.searchTerm = searchTerm;
+          (editor.storage as unknown as SearchAndReplaceStorage).searchTerm =
+            searchTerm;
 
           return false;
         },
       setReplaceTerm:
         (replaceTerm: string) =>
         ({ editor }) => {
-          editor.storage.searchAndReplace.replaceTerm = replaceTerm;
+          (editor.storage as unknown as SearchAndReplaceStorage).replaceTerm =
+            replaceTerm;
 
           return false;
         },
       replace:
         () =>
         ({ editor, state, dispatch }) => {
-          const { replaceTerm, results } = editor.storage.searchAndReplace;
+          const { replaceTerm, results } =
+            editor.storage as unknown as SearchAndReplaceStorage;
 
           replace(replaceTerm, results, { state, dispatch });
 
@@ -324,7 +330,8 @@ export const SearchAndReplace = Extension.create<
       replaceAll:
         () =>
         ({ editor, tr, dispatch }) => {
-          const { replaceTerm, results } = editor.storage.searchAndReplace;
+          const { replaceTerm, results } =
+            editor.storage as unknown as SearchAndReplaceStorage;
 
           replaceAll(replaceTerm, results, { tr, dispatch });
 
@@ -347,7 +354,8 @@ export const SearchAndReplace = Extension.create<
       setCaseSensitive:
         (caseSensitive: boolean) =>
         ({ editor }) => {
-          editor.storage.searchAndReplace.caseSensitive = caseSensitive;
+          (editor.storage as unknown as SearchAndReplaceStorage).caseSensitive =
+            caseSensitive;
 
           return false;
         },
@@ -360,15 +368,19 @@ export const SearchAndReplace = Extension.create<
       this.options;
 
     const setLastSearchTerm = (t: string) => {
-      editor.storage.searchAndReplace.lastSearchTerm = t;
+      (editor.storage as unknown as SearchAndReplaceStorage).lastSearchTerm = t;
     };
 
     const setLastSelectedResult = (r: number) => {
-      editor.storage.searchAndReplace.lastSelectedResult = r;
+      (
+        editor.storage as unknown as SearchAndReplaceStorage
+      ).lastSelectedResult = r;
     };
 
     const setLastCaseSensitiveState = (s: boolean) => {
-      editor.storage.searchAndReplace.lastCaseSensitiveState = s;
+      (
+        editor.storage as unknown as SearchAndReplaceStorage
+      ).lastCaseSensitiveState = s;
     };
 
     return [
@@ -384,7 +396,7 @@ export const SearchAndReplace = Extension.create<
               lastSelectedResult,
               caseSensitive,
               lastCaseSensitiveState,
-            } = editor.storage.searchAndReplace as SearchAndReplaceStorage;
+            } = editor.storage as unknown as SearchAndReplaceStorage;
 
             if (
               !docChanged &&
@@ -400,8 +412,11 @@ export const SearchAndReplace = Extension.create<
             setLastCaseSensitiveState(caseSensitive);
 
             if (!searchTerm) {
-              editor.storage.searchAndReplace.selectedResult = 0;
-              editor.storage.searchAndReplace.results = [];
+              (
+                editor.storage as unknown as SearchAndReplaceStorage
+              ).selectedResult = 0;
+              (editor.storage as unknown as SearchAndReplaceStorage).results =
+                [];
               return DecorationSet.empty;
             }
 
@@ -413,10 +428,13 @@ export const SearchAndReplace = Extension.create<
               selectedResultClass,
             );
 
-            editor.storage.searchAndReplace.results = results;
+            (editor.storage as unknown as SearchAndReplaceStorage).results =
+              results;
 
             if (selectedResult > results.length) {
-              editor.storage.searchAndReplace.selectedResult = 1;
+              (
+                editor.storage as unknown as SearchAndReplaceStorage
+              ).selectedResult = 1;
               editor.commands.selectPreviousResult();
             }
 

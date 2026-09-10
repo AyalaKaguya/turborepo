@@ -1,5 +1,6 @@
 import { FileValidator } from '@nestjs/common';
-import { IFile } from '@nestjs/common/pipes/file/interfaces';
+
+import { IFile } from './file.interface';
 
 export interface FileSizeValidatorOptions {
   fileSize: number;

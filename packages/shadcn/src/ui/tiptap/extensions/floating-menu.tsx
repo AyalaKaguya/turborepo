@@ -12,7 +12,7 @@ import { cn } from '@repo/shadcn/lib/utils';
 import { ScrollArea } from '@repo/shadcn/scroll-area';
 import { IconBrandYoutubeFilled } from '@tabler/icons-react';
 import type { Editor } from '@tiptap/core';
-import { FloatingMenu } from '@tiptap/react';
+import { FloatingMenu } from '@tiptap/react/menus';
 import {
   AlignCenter,
   AlignLeft,
@@ -320,9 +320,10 @@ export function TipTapFloatingMenu({ editor }: { editor: Editor }) {
   );
 
   useEffect(() => {
-    if (!editor?.options.element) return;
+    const editorElement = editor?.options.element;
 
-    const editorElement = editor.options.element;
+    if (!(editorElement instanceof HTMLElement)) return;
+
     const handleEditorKeyDown = (e: Event) => handleKeyDown(e as KeyboardEvent);
 
     editorElement.addEventListener('keydown', handleEditorKeyDown);
@@ -370,14 +371,8 @@ export function TipTapFloatingMenu({ editor }: { editor: Editor }) {
         if (!isOpen) setIsOpen(true);
         return true;
       }}
-      tippyOptions={{
+      options={{
         placement: 'bottom-start',
-        interactive: true,
-        appendTo: () => document.body,
-        onHide: () => {
-          setIsOpen(false);
-          setSelectedIndex(-1);
-        },
       }}
     >
       <Command

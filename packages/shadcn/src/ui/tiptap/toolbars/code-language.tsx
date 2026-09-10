@@ -4,7 +4,8 @@ import { cn } from '@repo/shadcn/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@repo/shadcn/popover';
 import { ScrollArea } from '@repo/shadcn/scroll-area';
 import { Editor } from '@tiptap/core';
-import { FloatingMenu, useEditorState } from '@tiptap/react';
+import { useEditorState } from '@tiptap/react';
+import { FloatingMenu } from '@tiptap/react/menus';
 import { common } from 'lowlight';
 import { ChevronDownIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -29,38 +30,9 @@ export const CodeLanguage = ({ editor }: { editor: Editor | null }) => {
   return (
     <FloatingMenu
       editor={editor}
-      tippyOptions={{
+      options={{
         placement: 'top-end',
-        appendTo: 'parent',
-        duration: 100,
-        zIndex: 0,
-        offset: [0, 8],
-        getReferenceClientRect: () => {
-          const { ranges } = editor.state.selection;
-          const from = Math.min(...ranges.map((range) => range.$from.pos));
-          const to = Math.max(...ranges.map((range) => range.$to.pos));
-
-          let nodePos: number | undefined = undefined;
-
-          editor.state.doc.nodesBetween(from, to, (node, p) => {
-            if (node.type.name !== 'codeBlock') {
-              return;
-            }
-
-            nodePos = p;
-            return false;
-          });
-
-          if (nodePos !== undefined) {
-            const node = editor.view.nodeDOM(nodePos) as HTMLElement;
-
-            if (node) {
-              return node.getBoundingClientRect();
-            }
-          }
-
-          return editor.view.dom.getBoundingClientRect();
-        },
+        offset: 8,
       }}
       className={cn('flex w-fit max-w-[90vw] space-x-0.5')}
       shouldShow={({ editor }) => {

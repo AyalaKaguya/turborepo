@@ -132,7 +132,7 @@ export class AuthService {
   async validateUser(dto: ValidateUserDto): Promise<User> {
     const user = await this.UserRepository.findOne({
       where: [{ email: dto.identifier }, { username: dto.identifier }],
-      relations: ['profile'],
+      relations: { profile: true },
     });
     if (!user) throw new NotFoundException('User not found');
     const isValid = await validateString(dto.password, user.password);
@@ -236,7 +236,7 @@ export class AuthService {
   async confirmEmail(dto: ConfirmEmailDto): Promise<void> {
     const user = await this.UserRepository.findOne({
       where: { email: dto.email },
-      relations: ['profile'],
+      relations: { profile: true },
     });
     if (!user) throw new NotFoundException('User not found');
     const otp = await this.OtpRepository.findOne({
@@ -270,7 +270,7 @@ export class AuthService {
   async forgotPassword(dto: ForgotPasswordDto): Promise<void> {
     const user = await this.UserRepository.findOne({
       where: [{ email: dto.identifier }, { username: dto.identifier }],
-      relations: ['profile'],
+      relations: { profile: true },
     });
     if (!user) throw new NotFoundException('User not found');
     const passwordResetToken = await generateOTP();
@@ -301,7 +301,7 @@ export class AuthService {
   async resetPassword(dto: ResetPasswordDto): Promise<void> {
     const user = await this.UserRepository.findOne({
       where: [{ email: dto.identifier }, { username: dto.identifier }],
-      relations: ['profile'],
+      relations: { profile: true },
     });
     if (!user) throw new NotFoundException('User not found');
     const otp = await this.OtpRepository.findOne({

@@ -7,7 +7,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@repo/shadcn/tooltip';
-import { Editor, FloatingMenu } from '@tiptap/react';
+import { Editor } from '@tiptap/core';
+import { FloatingMenu } from '@tiptap/react/menus';
 import {
   Columns,
   MoreHorizontal,
@@ -25,34 +26,9 @@ export const TableMenu = ({ editor }: { editor: Editor | null }) => {
   return (
     <FloatingMenu
       editor={editor}
-      tippyOptions={{
+      options={{
         placement: 'top-end',
-        appendTo: 'parent',
-        duration: 100,
-        zIndex: 0,
-        offset: [0, -15],
-        getReferenceClientRect: () => {
-          const { ranges } = editor.state.selection;
-          const from = Math.min(...ranges.map((range) => range.$from.pos));
-          const to = Math.max(...ranges.map((range) => range.$to.pos));
-
-          let nodePos: number | undefined = undefined;
-
-          editor.state.doc.nodesBetween(from, to, (_node, p) => {
-            nodePos = p;
-            return false;
-          });
-
-          if (nodePos !== undefined) {
-            const node = editor.view.nodeDOM(nodePos) as HTMLElement;
-
-            if (node) {
-              return node.getBoundingClientRect();
-            }
-          }
-
-          return editor.view.dom.getBoundingClientRect();
-        },
+        offset: -15,
       }}
       className={cn('flex w-fit max-w-[90vw] space-x-0.5')}
       shouldShow={({ editor }) => {
