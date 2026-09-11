@@ -29,18 +29,18 @@ const Page = async ({
     return <NotFound />;
   }
   return (
-    <section className="min-h-screen bg-background">
+    <section className="bg-background min-h-screen">
       <BackNavigation />
       <div className="bg-background shadow">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <ProfileHeader user={user} />
         </div>
       </div>
       <Tabs
         defaultValue="profile"
-        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
+        className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8"
       >
-        <div className="w-full flex flex-col md:flex-row gap-6">
+        <div className="flex w-full flex-col gap-6 md:flex-row">
           {session?.user && session.user.username === username && (
             <div className="w-full md:w-1/4">
               <ProfileSidebar />

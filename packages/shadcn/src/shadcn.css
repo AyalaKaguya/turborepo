@@ -333,7 +333,7 @@
 
 @layer components {
   .prose-article {
-    @apply prose dark:prose-invert prose-sm sm:prose-base focus:outline-none max-w-full;
+    @apply prose dark:prose-invert prose-sm sm:prose-base max-w-full focus:outline-none;
   }
 
   .w-vw {

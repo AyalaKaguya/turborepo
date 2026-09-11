@@ -9,8 +9,8 @@ import Link from 'next/link';
 const Page = async () => {
   const session = await auth();
   return (
-    <section className="min-h-dvh container flex flex-col">
-      <nav className="w-full flex justify-between items-center py-5">
+    <section className="container flex min-h-dvh flex-col">
+      <nav className="flex w-full items-center justify-between py-5">
         <Link href="/">
           <LogoIcon width={30} height={30} />
         </Link>
@@ -48,11 +48,11 @@ const Page = async () => {
       <div className="my-5">
         <RichTextEditor />
       </div>
-      <div className="flex flex-1 flex-col w-full justify-center items-center gap-5 min-h-dvh">
+      <div className="flex min-h-dvh w-full flex-1 flex-col items-center justify-center gap-5">
         <h2>Welcome to the Turborepo</h2>
         <p>This is a monorepo for a Next.js app and a React library.</p>
         {session?.user && (
-          <div className=" flex-col flex justify-center items-center gap-5">
+          <div className="flex flex-col items-center justify-center gap-5">
             <p>You are logged in as {session?.user.email}</p>
             <Button asChild>
               <Link href={`/${session?.user.username}`}>Your Profile</Link>

@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "sortPackageJson": {},
+  "sortTailwindcss": {
+    "functions": ["clsx", "cn", "twMerge"]
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "pnpm-lock.yaml",
+    ".gitignore",
+    ".idea",
+    ".turbo",
+    ".changeset",
+    "pnpm-workspace.yaml"
+  ]
+}

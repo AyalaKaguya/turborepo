@@ -108,7 +108,7 @@ const RootLayout = async ({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'antialiased tracking-normal leading-normal',
+          'leading-normal tracking-normal antialiased',
           geist.variable,
           geist_mono.variable,
           roboto.variable,

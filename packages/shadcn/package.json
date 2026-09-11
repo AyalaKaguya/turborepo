@@ -60,9 +60,7 @@
   "devDependencies": {
     "@ai-sdk/deepseek": "^3.0.42",
     "@ai-sdk/google": "^4.0.67",
-    "@eslint/js": "^10.0.1",
     "@number-flow/react": "^0.6.2",
-    "@repo/eslint-config": "workspace:*",
     "@repo/ts-config": "workspace:*",
     "@repo/utils": "workspace:*",
     "@tabler/icons-react": "^3.46.0",
@@ -92,7 +90,6 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "ai": "^7.0.97",
-    "eslint-config-prettier": "^10.1.8",
     "lowlight": "^3.3.0",
     "lucide-react": "^1.44.0",
     "marked": "^18.0.12",
